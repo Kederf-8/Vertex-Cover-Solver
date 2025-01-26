@@ -34,9 +34,22 @@ public class VertexCoverMain {
             }
         }
 
-        // Imposta il percorso del file di output con numero di nodi e archi
-        solutionOutputPath = "solutions/solution_"
-                + graph.getNumNodes() + "_" + graph.getEdges().size() + ".txt";
+        // Estrae il nome del file di input senza directory
+        String inputFileName = new File(inputFilePath).getName(); // Es. "vc_20_60_01.txt"
+
+        // Rimuove l'iniziale 'vc' se presente
+        String baseName;
+        if (inputFileName.startsWith("vc")) {
+            baseName = inputFileName.substring(2); // Rimuove i primi 2 caratteri
+        } else {
+            baseName = inputFileName;
+        }
+
+        // Prepend 'solution_' al nome base
+        String solutionFileName = "solution" + baseName; // Es. "solution_20_60_01.txt"
+
+        // Imposta il percorso completo del file di output nella cartella 'solutions'
+        solutionOutputPath = "solutions/" + solutionFileName;
 
         // Imposta i parametri per la Tabu Search
         int maxIterations = 1000; // Numero massimo di iterazioni
