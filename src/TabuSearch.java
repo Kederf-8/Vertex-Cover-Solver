@@ -13,12 +13,14 @@ public class TabuSearch {
     private final Graph graph;
     private final int maxIterations;
     private final int tabuTenure;
+    private final int maxNoImprovement; // parametro aggiuntivo
     private final Map<String, Integer> tabuList;
 
-    public TabuSearch(Graph graph, int maxIterations, int tabuTenure) {
+    public TabuSearch(Graph graph, int maxIterations, int tabuTenure, int maxNoImprovement) {
         this.graph = graph;
         this.maxIterations = maxIterations;
         this.tabuTenure = tabuTenure;
+        this.maxNoImprovement = maxNoImprovement;
         this.tabuList = new HashMap<>();
     }
 
@@ -31,13 +33,14 @@ public class TabuSearch {
     public Solution search() {
         Solution bestSolution = initialSolution();
         Solution currentSolution = bestSolution.clone();
+
         int iterations = 0;
-        int iterationsSinceLastImprovement = 0; // Contatore per il criterio di terminazione
+        int iterationsSinceLastImprovement = 0;
         Random rand = new Random();
 
         System.out.println("Inizio Tabu Search per il Weighted Vertex Cover...");
 
-        while (iterations < maxIterations && iterationsSinceLastImprovement < 20) {
+        while (iterations < maxIterations && iterationsSinceLastImprovement < maxNoImprovement) {
             List<Solution> neighbors = generateNeighbors(currentSolution);
             if (neighbors.isEmpty()) {
                 System.out.println("Iterazione " + iterations + ": nessun vicino ammissibile trovato.");
@@ -122,7 +125,8 @@ public class TabuSearch {
             iterations++;
 
             // Stampa il progresso ogni 100 iterazioni o quando si raggiunge il termine
-            if (iterations % 100 == 0 || iterations == maxIterations || iterationsSinceLastImprovement == 20) {
+            if (iterations % 100 == 0 || iterations == maxIterations
+                    || iterationsSinceLastImprovement == maxNoImprovement) {
                 System.out.println("Iterazione " + iterations + " - Migliore Costo: " + bestSolution.getCost());
             }
         }
