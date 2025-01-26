@@ -1,6 +1,8 @@
 package src;
 
 // TabuSearch.java
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -32,11 +34,12 @@ public class TabuSearch {
         Solution bestSolution = initialSolution();
         Solution currentSolution = bestSolution.clone();
         int iterations = 0;
+        int iterationsSinceLastImprovement = 0; // Contatore per il criterio di terminazione
         Random rand = new Random();
 
         System.out.println("Inizio Tabu Search per il Weighted Vertex Cover...");
 
-        while (iterations < maxIterations) {
+        while (iterations < maxIterations && iterationsSinceLastImprovement < 20) {
             List<Solution> neighbors = generateNeighbors(currentSolution);
             if (neighbors.isEmpty()) {
                 System.out.println("Iterazione " + iterations + ": nessun vicino ammissibile trovato.");
@@ -82,7 +85,7 @@ public class TabuSearch {
                 bestNeighbor = neighbors.get(rand.nextInt(neighbors.size()));
             }
 
-            // Determina la mossa effettuata
+            // Determina la mossa effettuata da currentSolution a bestNeighbor
             Set<Integer> diff = new HashSet<>(currentSolution.getVertexCover());
             diff.removeAll(bestNeighbor.getVertexCover());
             String move = "";
@@ -109,6 +112,9 @@ public class TabuSearch {
             // Aggiorna la migliore soluzione globale se necessario
             if (currentSolution.getCost() < bestSolution.getCost()) {
                 bestSolution = currentSolution.clone();
+                iterationsSinceLastImprovement = 0; // Resetta il contatore
+            } else {
+                iterationsSinceLastImprovement++;
             }
 
             // Aggiorna la lista tabu decrementando il tenure
@@ -117,8 +123,8 @@ public class TabuSearch {
             // Incrementa il contatore delle iterazioni
             iterations++;
 
-            // Stampa il progresso ogni 100 iterazioni o alla fine
-            if (iterations % 100 == 0 || iterations == maxIterations) {
+            // Stampa il progresso ogni 100 iterazioni o quando si raggiunge il termine
+            if (iterations % 100 == 0 || iterations == maxIterations || iterationsSinceLastImprovement == 20) {
                 System.out.println("Iterazione " + iterations + " - Migliore Costo: " + bestSolution.getCost());
             }
         }
@@ -230,5 +236,45 @@ public class TabuSearch {
         for (String key : toRemove) {
             tabuList.remove(key);
         }
+    }
+
+    /**
+     * Esporta il grafo in formato DOT in maniera efficiente utilizzando
+     * StringBuilder.
+     *
+     * @param filename Nome del file di output.
+     */
+    public void exportGraphToDOTFast(String filename) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("graph G {\n");
+
+        // Aggiunge tutti i nodi con un'etichetta che include anche il peso (per
+        // chiarezza)
+        for (int i = 0; i < graph.getNumNodes(); i++) {
+            sb.append("  ")
+                    .append(i) // 0-based oppure (i+1) per 1-based
+                    .append(" [label=\"")
+                    .append(i + 1)
+                    .append(" (")
+                    .append(graph.getWeights()[i])
+                    .append(")\"];\n");
+        }
+
+        // Aggiunge tutti gli archi
+        for (Edge e : graph.getEdges()) {
+            sb.append("  ")
+                    .append(e.getU())
+                    .append(" -- ")
+                    .append(e.getV())
+                    .append(";\n");
+        }
+        sb.append("}\n");
+
+        try (FileWriter fw = new FileWriter(filename)) {
+            fw.write(sb.toString());
+        } catch (IOException ex) {
+            System.err.println("Errore nell'esportazione del file DOT: " + ex.getMessage());
+        }
+        System.out.println("Grafo esportato in formato DOT in maniera veloce sul file: " + filename);
     }
 }
