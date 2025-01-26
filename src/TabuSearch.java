@@ -1,8 +1,6 @@
 package src;
 
 // TabuSearch.java
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -236,45 +234,5 @@ public class TabuSearch {
         for (String key : toRemove) {
             tabuList.remove(key);
         }
-    }
-
-    /**
-     * Esporta il grafo in formato DOT in maniera efficiente utilizzando
-     * StringBuilder.
-     *
-     * @param filename Nome del file di output.
-     */
-    public void exportGraphToDOTFast(String filename) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("graph G {\n");
-
-        // Aggiunge tutti i nodi con un'etichetta che include anche il peso (per
-        // chiarezza)
-        for (int i = 0; i < graph.getNumNodes(); i++) {
-            sb.append("  ")
-                    .append(i) // 0-based oppure (i+1) per 1-based
-                    .append(" [label=\"")
-                    .append(i + 1)
-                    .append(" (")
-                    .append(graph.getWeights()[i])
-                    .append(")\"];\n");
-        }
-
-        // Aggiunge tutti gli archi
-        for (Edge e : graph.getEdges()) {
-            sb.append("  ")
-                    .append(e.getU())
-                    .append(" -- ")
-                    .append(e.getV())
-                    .append(";\n");
-        }
-        sb.append("}\n");
-
-        try (FileWriter fw = new FileWriter(filename)) {
-            fw.write(sb.toString());
-        } catch (IOException ex) {
-            System.err.println("Errore nell'esportazione del file DOT: " + ex.getMessage());
-        }
-        System.out.println("Grafo esportato in formato DOT in maniera veloce sul file: " + filename);
     }
 }

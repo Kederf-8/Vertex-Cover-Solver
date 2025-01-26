@@ -52,6 +52,6 @@ public class VertexCoverMain {
         SolutionWriter.writeSolutionToFile(solutionOutputPath, bestSolution, graph);
 
         // Esporta il grafo in formato DOT in maniera veloce (ottimizzata)
-        tabuSearch.exportGraphToDOTFast(dotOutputPath);
+        graph.exportGraphToDOTFast(dotOutputPath);
     }
 }
