@@ -1,12 +1,7 @@
+package src;
 
 // VertexCoverMain.java
 import java.io.File;
-
-import src.Graph;
-import src.GraphReader;
-import src.Solution;
-import src.SolutionWriter;
-import src.TabuSearch;
 
 // VertexCoverMain.java
 public class VertexCoverMain {
