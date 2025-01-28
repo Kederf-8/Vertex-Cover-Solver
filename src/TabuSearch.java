@@ -13,7 +13,7 @@ public class TabuSearch {
     private final Graph graph;
     private final int maxIterations;
     private final int tabuTenure;
-    private final int maxNoImprovement; // parametro aggiuntivo
+    private final int maxNoImprovement;
     private final Map<String, Integer> tabuList;
 
     public TabuSearch(Graph graph, int maxIterations, int tabuTenure, int maxNoImprovement) {
@@ -124,8 +124,9 @@ public class TabuSearch {
             // Incrementa il contatore delle iterazioni
             iterations++;
 
-            // Stampa il progresso ogni 100 iterazioni o quando si raggiunge il termine
-            if (iterations % 100 == 0 || iterations == maxIterations
+            // Stampa il progresso ogni 10 iterazioni o quando si raggiunge maxIterations o
+            // non migliora per maxNoImprovement iterazioni
+            if (iterations % 10 == 0 || iterations == maxIterations
                     || iterationsSinceLastImprovement == maxNoImprovement) {
                 System.out.println("Iterazione " + iterations + " - Migliore Costo: " + bestSolution.getCost());
             }
