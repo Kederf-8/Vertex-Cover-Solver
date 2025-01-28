@@ -1,7 +1,5 @@
 prove
-wvcp-instances
 grafo*
-best_solution.txt
 *.class
 WeightedVertexCover*
 solutions
