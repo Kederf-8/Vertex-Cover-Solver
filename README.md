@@ -197,4 +197,4 @@ Academic Year: 2024/25
 For feedback or suggestions:
 
 - **Email:** <napolig05@gmail.com>
-- **GitHub Repository:** [Vertex Cover Solver](https://github.com/Kederf-8/VertexCoverSolver)
+- **GitHub Repository:** [Vertex Cover Solver](https://github.com/Kederf-8/Vertex-Cover-Solver)
