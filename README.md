@@ -1,97 +1,97 @@
 # Vertex Cover Solver
 
-> Un progetto per risolvere il problema del **(Weighted) Vertex Cover** utilizzando la metaeuristica **Tabu Search**.
+> A project for solving the **Weighted Vertex Cover** problem using the **Tabu Search** metaheuristic.
 
-## Descrizione
+## Description
 
-Questo progetto implementa un algoritmo basato su **Tabu Search** per affrontare il problema del **Vertex Cover** su grafi non orientati. L'obiettivo è trovare un **insieme minimo** di vertici che copra tutti gli archi del grafo. Nel caso di grafi pesati, l'algoritmo mira a minimizzare la somma dei pesi dei vertici selezionati.
+This project implements a **Tabu Search**-based algorithm to address the Vertex Cover problem on undirected graphs. The goal is to find a **minimum set** of vertices that covers all the graph edges. In the case of weighted graphs, the algorithm aims to minimize the total weight of the selected vertices.
 
-### Caratteristiche principali
+### Key Features
 
-- Configurabilità dei principali parametri dell'algoritmo (ad es. `tabuTenure`, `maxIterations`, `maxNoImprovement`).
-- Gestione efficiente del vicinato e della Tabu List.
-- Esportazione del grafo in formato DOT per la visualizzazione.
-- Salvataggio delle migliori soluzioni trovate in file di output.
+- Configurable algorithm parameters (e.g., `tabuTenure`, `maxIterations`, `maxNoImprovement`).
+- Efficient neighborhood management and Tabu List handling.
+- Graph export in DOT format for visualization.
+- Best solutions saved in output files.
 
-## Struttura del Progetto
+## Project Structure
 
-Il progetto è organizzato nei seguenti file e directory:
+The project is organized into the following files and directories:
 
 ```txt
 VertexCoverSolver/
-├── README.md                  # Documentazione del progetto
-├── src/                       # Codice sorgente del progetto
-│   ├── VertexCoverMain.java   # Entry point del progetto
-│   ├── TabuSearch.java        # Implementazione della Tabu Search
-│   ├── Graph.java             # Rappresentazione del grafo
-│   ├── GraphReader.java       # Lettura del grafo da file
-│   ├── Solution.java          # Rappresentazione della soluzione
-│   ├── SolutionWriter.java    # Salvataggio della soluzione
-│   └── Edge.java              # Classe per rappresentare gli archi
-├── wvcp-istances/             # Istanze di test
-│   ├── vc_20_60_01.txt        # Esempio di grafo piccolo
-│   ├── vc_100_500_01.txt      # Esempio di grafo medio
-│   └── vc_800_10000.txt       # Esempio di grafo grande
-├── solutions/                 # Cartella per le soluzioni generate
-├── report/                    # Relazione finale (LaTeX)
-│   ├── main.tex               # File LaTeX principale
-│   ├── Capitoli/              # Capitoli del report
-│   └── immagini/              # Figure e grafici del report
-└── scalability_plot.png       # Grafico della scalabilità (esempio)
+├── README.md                  # Project documentation
+├── src/                       # Project source code
+│   ├── VertexCoverMain.java   # Project entry point
+│   ├── TabuSearch.java        # Tabu Search implementation
+│   ├── Graph.java             # Graph representation
+│   ├── GraphReader.java       # Graph input reader
+│   ├── Solution.java          # Solution representation
+│   ├── SolutionWriter.java    # Solution output writer
+│   └── Edge.java              # Class for representing edges
+├── wvcp-istances/             # Test instances
+│   ├── vc_20_60_01.txt        # Small graph example
+│   ├── vc_100_500_01.txt      # Medium graph example
+│   └── vc_800_10000.txt       # Large graph example
+├── solutions/                 # Folder for generated solutions
+├── report/                    # Final report (LaTeX)
+│   ├── main.tex               # Main LaTeX file
+│   ├── Chapters/              # Report chapters
+│   └── images/                # Figures and plots for the report
+└── scalability_plot.png       # Scalability plot (example)
 ```
 
-## Installazione e Utilizzo
+## Installation and Usage
 
-### Prerequisiti
+### Prerequisites
 
-- **Java Development Kit (JDK)** versione 17 o superiore.
-- Compilatore LaTeX (opzionale, per generare la relazione).
-- (Facoltativo) **Graphviz** per visualizzare i file DOT generati.
+- **Java Development Kit (JDK)** version 17 or higher.
+- LaTeX compiler (optional, for generating the report).
+- (Optional) **Graphviz** for visualizing generated DOT files.
 
-### Configurazione
+### Setup
 
-1. Clona il repository:
+1. Clone the repository:
 
    ```bash
-   git clone https://github.com/username/VertexCoverSolver.git
+   git clone https://github.com/Kederf-8/VertexCoverSolver.git
    cd VertexCoverSolver
    ```
 
-2. Compila i file Java:
+2. Compile the Java files:
 
    ```bash
    javac src/*.java
    ```
 
-3. Assicurati che la cartella `solutions/` esista. In caso contrario, creala manualmente:
+3. Ensure the `solutions/` folder exists. If not, create it manually:
 
    ```bash
    mkdir solutions
    ```
 
-### Esecuzione
+### Execution
 
-Per eseguire l'algoritmo su un'istanza di grafo:
+Run the algorithm on a graph instance:
 
 ```bash
 java src/VertexCoverMain wvcp-istances/vc_800_10000.txt
 ```
 
-Dove:
+Where:
 
-- `wvcp-istances/vc_800_10000.txt` è il file che contiene la rappresentazione del grafo in un formato accettato dal programma.
+- `wvcp-istances/vc_800_10000.txt` is the file containing the graph representation in a supported format.
 
-### Formato dei File di Input
+### Input File Format
 
-Il formato dei file di input è il seguente:
+The input file format is as follows:
 
 ```txt
 <N>
-<Pesi dei Nodi>
-<Matrice di Adiacenza>
+<Node Weights>
+<Adjacency Matrix>
 ```
 
-Esempio (grafo con 5 nodi, pesi casuali, e una matrice di adiacenza):
+Example (a graph with 5 nodes, random weights, and an adjacency matrix):
 
 ```txt
 5
@@ -105,12 +105,12 @@ Esempio (grafo con 5 nodi, pesi casuali, e una matrice di adiacenza):
 
 ### Output
 
-Il programma salva:
+The program outputs:
 
-1. La migliore soluzione trovata in un file di testo nella cartella `solutions/`.
-2. Il grafo in formato DOT (esportato nella directory di lavoro) per la visualizzazione.
+1. The best solution found in a text file under the `solutions/` folder.
+2. The graph in DOT format (exported in the working directory) for visualization.
 
-Esempio di file DOT generato:
+Example of a generated DOT file:
 
 ```dot
 graph G {
@@ -122,43 +122,43 @@ graph G {
 }
 ```
 
-### Visualizzazione del Grafo
+### Graph Visualization
 
-Se hai installato **Graphviz**, puoi generare un’immagine PNG dal file DOT:
+If **Graphviz** is installed, you can generate a PNG image from the DOT file:
 
 ```bash
 dot -K sfdp -Tpng grafo.dot -o grafo.png
 ```
 
-## Test e Benchmark
+## Test and Benchmarks
 
-Sono stati eseguiti test su istanze di diverse dimensioni, incluse quelle nella cartella `wvcp-istances/`:
+Tests were conducted on instances of various sizes, including those in the `wvcp-istances/` folder:
 
-- `vc_20_60_01.txt` (20 nodi, 60 archi)
-- `vc_100_500_01.txt` (100 nodi, 500 archi)
-- `vc_800_10000.txt` (800 nodi, 10000 archi)
+- `vc_20_60_01.txt` (20 nodes, 60 edges)
+- `vc_100_500_01.txt` (100 nodes, 500 edges)
+- `vc_800_10000.txt` (800 nodes, 10000 edges)
 
-Per i dettagli sui risultati, consultare la relazione PDF nella cartella `report/`.
+For detailed results, refer to the PDF report in the `report/` folder.
 
-## Sviluppi Futuri
+## Future Developments
 
-Possibili miglioramenti includono:
+Potential improvements include:
 
-- Integrazione di una **long-term memory** nella Tabu Search.
-- Implementazione di una versione parallela dell'algoritmo per sfruttare architetture multicore.
-- Aggiunta di nuove istanze di test basate su benchmark standard per problemi di Vertex Cover.
+- Integration of a **long-term memory** in Tabu Search.
+- Implementation of a parallel algorithm to leverage multicore architectures.
+- Addition of new test instances based on standard benchmarks for Vertex Cover problems.
 
-## Autore
+## Author
 
 **Giuseppe Napoli**  
-Matricola: 1000012802  
-Corso di Laurea: Informatica LM-18  
-Insegnamento: Intelligenza Artificiale e Laboratorio  
-Anno Accademico: 2024/25
+Student ID: 1000012802  
+Degree Program: Computer Science LM-18  
+Course: Artificial Intelligence and Laboratory  
+Academic Year: 2024/25
 
-## Contatti
+## Contact
 
-Per segnalazioni o suggerimenti:
+For feedback or suggestions:
 
 - **Email:** <napolig05@gmail.com>
 - **GitHub Repository:** [Vertex Cover Solver](https://github.com/Kederf-8/VertexCoverSolver)
