@@ -54,8 +54,17 @@ public class VertexCoverMain {
         // Crea un'istanza di TabuSearch
         TabuSearch tabuSearch = new TabuSearch(graph, maxIterations, tabuTenure, maxNoImprovement);
 
+        // Cronometro start
+        long start = System.currentTimeMillis();
+
         // Esegue la Tabu Search
         Solution bestSolution = tabuSearch.search();
+
+        // Cronometro end
+        long end = System.currentTimeMillis();
+        long elapsedTime = end - start;
+
+        System.out.println("Tempo di esecuzione totale: " + (elapsedTime / 1000.0) + " secondi");
 
         // Scrive la migliore soluzione in un file di testo
         SolutionWriter.writeSolutionToFile(solutionOutputPath, bestSolution, graph);
