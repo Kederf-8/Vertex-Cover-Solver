@@ -87,6 +87,12 @@ Where:
 
 - `wvcp-istances/vc_800_10000.txt` is the file containing the graph representation in a supported format.
 
+or artenatively, to compile all files in `src/` and run on all instances in `wvcp-istances/`:
+
+```bash
+./start.sh
+```
+
 ### Input File Format
 
 The input file format is as follows:
@@ -145,6 +151,30 @@ Tests were conducted on instances of various sizes, including those in the `wvcp
 - `vc_800_10000.txt` (800 nodes, 10000 edges)
 
 For detailed results, refer to the PDF report in the `report/` folder.
+
+## Scalability Analysis
+
+To evaluate how the algorithm scales across different instances and parameter configurations, a script called **`scalability.sh`** is provided. This script:
+
+1. Runs **`MainForStatistics.java`** on various instances in `wvcp-istance/`, varying parameters such as `maxIterations`, `tabuTenure`, and `maxNoImprovement`.
+2. Generates a CSV file (e.g., `results.csv`) with execution times and other information for each configuration.
+3. Invokes the **`plot_scalability.py`** script (located in `statistics/`) which produces a final scalability chart.
+
+### Running `scalability.sh`
+
+Make sure the required Python packages (listed in `statistics/requirements.txt`) are installed. Then, from the command line, run:
+
+```bash
+./scalability.sh
+```
+
+The script will compile (if needed) the Java code, execute tests on the given instances, and finally call the Python script to produce the **`scalability_plot.png`** file. In the end, you will find the final chart in **`statistics/`**.
+
+### Final Outcome
+
+Below is an example of the resulting chart, showing how the execution time changes with different parameter settings and instance sizes:
+
+![Scalability Plot](statistics/scalability_plot.png)
 
 ## Future Developments
 
