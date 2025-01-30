@@ -1,3 +1,5 @@
+#!/bin/bash
+
 javac src/*.java
 java src/VertexCoverMain.java wvcp-instances/vc_20_60_01.txt
 java src/VertexCoverMain.java wvcp-instances/vc_20_60_02.txt

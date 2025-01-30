@@ -47,9 +47,9 @@ public class VertexCoverMain {
         solutionOutputPath = "solutions/" + solutionFileName;
 
         // Imposta i parametri per la Tabu Search
-        int maxIterations = 1000; // Numero massimo di iterazioni
-        int tabuTenure = 7; // Durata in iterazioni per cui una mossa resta tabu
-        int maxNoImprovement = 20; // Numero di iterazioni consecutive senza miglioramenti
+        int maxIterations = 500; // Numero massimo di iterazioni
+        int tabuTenure = 5; // Durata in iterazioni per cui una mossa resta tabu
+        int maxNoImprovement = 10; // Numero di iterazioni consecutive senza miglioramenti
 
         // Crea un'istanza di TabuSearch
         TabuSearch tabuSearch = new TabuSearch(graph, maxIterations, tabuTenure, maxNoImprovement);
