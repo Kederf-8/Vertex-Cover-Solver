@@ -33,7 +33,7 @@ def main():
         for idx, row in subset.iterrows():
             config_label = f"it={int(row['maxIterations'])},T={int(row['tabuTenure'])},NI={int(row['maxNoImprovement'])}"
             labels.append(config_label)
-            time_values.append(row["timeSec"])
+            time_values.append(row["avgTime"])
 
         ax = axs[i]
         ax.bar(labels, time_values, color="skyblue")

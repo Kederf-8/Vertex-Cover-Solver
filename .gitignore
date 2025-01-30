@@ -5,5 +5,4 @@ WeightedVertexCover*
 solutions
 
 # scalability results
-statistics/scalability_plot.png
 scalability_results.csv

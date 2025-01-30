@@ -1,12 +1,9 @@
-
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
 import src.Graph;
 import src.GraphReader;
-import src.Solution;
 import src.TabuSearch;
 
 public class MainForStatistics {
@@ -14,7 +11,7 @@ public class MainForStatistics {
     public static void main(String[] args) {
         if (args.length < 4) {
             System.err.println(
-                    "Uso: java VertexCoverMain <file_grafo.txt> <maxIterations> <tabuTenure> <maxNoImprovement> [nomeCsv]");
+                    "Usage: java MainForStatistics <graph_file.txt> <maxIterations> <tabuTenure> <maxNoImprovement> [csvFile]");
             System.exit(1);
         }
 
@@ -23,53 +20,59 @@ public class MainForStatistics {
         int tabuTenure = Integer.parseInt(args[2]);
         int maxNoImprovement = Integer.parseInt(args[3]);
 
-        // CSV di default, se non specificato come quinto argomento
+        // Default CSV file, if not specified as the fifth argument
         String nomeCsv = "statistics/scalability_results.csv";
         if (args.length >= 5) {
             nomeCsv = args[4];
         }
 
-        // Caricamento del grafo (metodo definito in GraphReader)
+        // Load the graph
         Graph graph = GraphReader.buildGraphFromWeightedAdjMatrixFile(inputFilePath);
         int nNodes = graph.getNumNodes();
         int nArcs = graph.getEdges().size();
 
-        // Creazione della TabuSearch con i parametri
-        TabuSearch tabuSearch = new TabuSearch(graph, maxIterations, tabuTenure, maxNoImprovement);
+        // Number of runs
+        final int RUNS = 5;
+        double totalTime = 0.0;
 
-        // Misura del tempo
-        long start = System.currentTimeMillis();
-        Solution bestSolution = tabuSearch.search();
-        long end = System.currentTimeMillis();
-        double elapsedTimeSec = (end - start) / 1000.0;
+        for (int i = 0; i < RUNS; i++) {
+            // Create a new TabuSearch for each run
+            TabuSearch tabuSearch = new TabuSearch(graph, maxIterations, tabuTenure, maxNoImprovement);
 
-        // Calcolo del costo (può essere somma pesi se Weighted, o conteggio nodi)
-        double bestCost = bestSolution.getCost();
+            long start = System.currentTimeMillis();
+            tabuSearch.search();
+            long end = System.currentTimeMillis();
 
-        // Stampa a video
-        System.out.println("Eseguito su " + inputFilePath);
-        System.out.println("Parametri: maxIterations=" + maxIterations + ", tabuTenure=" + tabuTenure
+            double elapsedTimeSec = (end - start) / 1000.0;
+            totalTime += elapsedTimeSec;
+        }
+
+        // Average time
+        double avgTime = totalTime / RUNS;
+
+        // Round to 4 decimal places
+        avgTime = Math.round(avgTime * 10000.0) / 10000.0;
+
+        // Print results
+        System.out.println("File: " + inputFilePath);
+        System.out.println("maxIterations=" + maxIterations + ", tabuTenure=" + tabuTenure
                 + ", maxNoImprovement=" + maxNoImprovement);
-        System.out.println("Nodi=" + nNodes + ", Archi=" + nArcs);
-        System.out.println("Miglior costo: " + bestCost);
-        System.out.println("Tempo (s): " + elapsedTimeSec);
+        System.out.println("Nodes=" + nNodes + ", Arcs=" + nArcs);
+        System.out.println("Avg Time (sec, " + RUNS + " runs): " + avgTime);
 
-        // Scrittura su CSV
-        // (se il file non esiste o è vuoto, aggiungiamo l'header)
+        // Write to CSV
         File outFile = new File(nomeCsv);
         boolean fileVuoto = (!outFile.exists()) || (outFile.length() == 0);
 
         try (FileWriter fw = new FileWriter(outFile, true)) {
-            // Se è la prima volta, scrivi l'header
             if (fileVuoto) {
-                fw.write("nNodes,nArcs,maxIterations,tabuTenure,maxNoImprovement,bestCost,timeSec\n");
+                // No cost column, just time
+                fw.write("nNodes,nArcs,maxIterations,tabuTenure,maxNoImprovement,avgTime\n");
             }
-
             fw.write(nNodes + "," + nArcs + ","
                     + maxIterations + "," + tabuTenure + ","
-                    + maxNoImprovement + "," + bestCost + ","
-                    + elapsedTimeSec + "\n");
-
+                    + maxNoImprovement + ","
+                    + avgTime + "\n");
         } catch (IOException e) {
             e.printStackTrace();
         }
