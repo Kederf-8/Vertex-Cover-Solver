@@ -1,0 +1,72 @@
+\documentclass[12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{multicol}
+\usepackage{listings}
+\lstset{
+    breaklines=true,
+    breakatwhitespace=true
+}
+\usepackage{graphicx}
+\usepackage[table, svgnames, dvipsnames]{xcolor}
+\usepackage{longtable}
+\usepackage[hidelinks]{hyperref}
+\usepackage{makecell, cellspace, caption}
+\usepackage{enumitem}
+\usepackage{geometry}
+\usepackage{titling}
+
+\renewcommand{\contentsname}{Indice}
+
+\title{
+  \includegraphics[height=0.20\textheight]{img/logo.png}\\
+  \vspace{1cm}
+  \materia\\
+  \projectName
+}
+\author{Giuseppe Napoli - 1000012802}
+\date{A.A. 2024/25}
+
+% Variabili personalizzate
+\newcommand{\materia}{Intelligenza Artificiale e Laboratorio}
+\newcommand{\projectName}{Vertex Cover Solver}
+\newcommand{\docenteUno}{Prof. Vincenzo Cutello}
+\newcommand{\docenteDue}{Prof. Mario Francesco Pavone}
+
+% Definizione del frontespizio
+\pretitle{
+  \begin{center}
+      \LARGE
+      \line(1,0){300}\\
+      \vspace{0.5cm}
+      \bfseries
+    }
+    \posttitle{
+      \line(1,0){300}\\
+      \vspace{1cm}
+  \end{center}
+}
+
+\begin{document}
+
+\maketitle
+
+\section*{Docenti}
+\begin{itemize}
+  \item \docenteUno
+  \item \docenteDue
+\end{itemize}
+
+\newpage
+\tableofcontents
+\newpage
+\input{Capitoli/Introduzione}
+\newpage
+\input{Capitoli/Algoritmo}
+\newpage
+\input{Capitoli/ScelteProgettuali}
+\newpage
+\input{Capitoli/Risultati}
+\newpage
+\input{Capitoli/Conclusioni}
+\end{document}

@@ -1,0 +1,40 @@
+\section{Scelte Progettuali}
+\label{sec:ScelteProgettuali}
+
+In questo capitolo vengono descritte e motivate le principali scelte progettuali e implementative che sono state adottate nello sviluppo dell'algoritmo di Tabu Search per il \emph{Weighted Vertex Cover}. Tali scelte riguardano sia la configurazione dei parametri, sia la modalità di gestione della memoria \emph{Tabu} (short-term e/o long-term), fino alle strategie di generazione del vicinato.
+
+\subsection{Struttura della Soluzione e Gestione della Memoria Tabu}
+
+La soluzione è rappresentata come un vettore binario di dimensione pari al numero di nodi del grafo, dove un valore "1" indica un nodo incluso nel \textit{vertex cover}, mentre "0" lo esclude. Il costo di una soluzione è dato dalla somma dei pesi dei nodi selezionati.
+
+L'algoritmo utilizza una \textit{tabu list} per gestire la memoria a breve termine e prevenire cicli. Questa viene implementata come una mappa che associa ogni mossa proibita (es. aggiunta/rimozione di un nodo) a un contatore di scadenza. Ad ogni iterazione:
+\begin{enumerate}
+    \item Si decremetano i contatori delle mosse presenti nella \textit{tabu list}.
+    \item Si rimuovono le mosse scadute.
+    \item Si aggiunge la mossa appena effettuata con una durata pari a \texttt{tabuTenure}.
+\end{enumerate}
+
+I principali parametri di controllo dell'algoritmo sono:
+\begin{itemize}
+    \item \textbf{\texttt{maxIterations}}: numero massimo di iterazioni.
+    \item \textbf{\texttt{tabuTenure}}: durata di una mossa nella \textit{tabu list}.
+    \item \textbf{\texttt{maxNoImprovement}}: numero massimo di iterazioni senza miglioramenti prima di interrompere la ricerca.
+\end{itemize}
+
+Questa gestione consente all'algoritmo di evitare soluzioni già esplorate e favorire la diversificazione della ricerca. L'uso della memoria \textit{long-term}, basata sulla frequenza con cui un nodo è selezionato, è stato considerato ma non implementato in modo esteso.
+
+\subsection{Generazione del Vicinato e Riflessioni sulle Scelte Progettuali}
+
+Il vicinato è generato rimuovendo un nodo dal \textit{vertex cover}, purché la soluzione resti ammissibile, o aggiungendo un nodo se necessario per coprire archi scoperti. Si adotta un criterio \textit{strictly feasible}, evitando mosse che renderebbero la soluzione non valida. 
+
+Questa strategia consente di mantenere soluzioni ammissibili e di esplorare lo spazio in modo controllato, evitando modifiche eccessivamente distruttive. La Tabu Search, grazie alla \textit{tabu list}, permette di bilanciare esplorazione e intensificazione della ricerca. 
+
+Le scelte progettuali adottate si sono dimostrate efficaci nel garantire stabilità e qualità delle soluzioni, evitando minimi locali evidenti e mantenendo tempi di esecuzione contenuti anche su istanze di grandi dimensioni.
+
+\subsection{Scelte di Implementazione e Linguaggio}
+
+L'algoritmo è stato implementato in Java per sfruttare strutture dati efficienti e garantire buone prestazioni su istanze di grandi dimensioni. La \textit{tabu list} è gestita con una \texttt{HashMap<String, Integer>}, in cui la chiave rappresenta una mossa (es. \texttt{"REMOVE 5"}) e il valore indica il numero di iterazioni rimanenti prima della sua rimozione.
+
+L'uso di un linguaggio compilato garantisce tempi di esecuzione più rapidi rispetto a linguaggi interpretati, riducendo l'overhead di gestione della memoria. La scelta di Java ha permesso inoltre una gestione semplice delle strutture dati e della modularità del codice.
+
+% Fine capitolo

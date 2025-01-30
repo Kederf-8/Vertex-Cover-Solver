@@ -1,0 +1,92 @@
+\section{Algoritmo}
+\label{sec:Algoritmo}
+
+\subsection{Panoramica Generale}
+
+L'algoritmo adottato è una \textit{Tabu Search}, una metaeuristica che evita cicli memorizzando le mosse recenti in una \textit{tabu list}. Come descritto nell'Introduzione, il problema viene affrontato tramite una ricerca locale iterativa, partendo da una soluzione iniziale e modificandola per minimizzare il costo.
+
+Ad ogni iterazione, vengono generate soluzioni vicine valutate tramite una funzione costo. La \textit{tabu list} impedisce di ripetere modifiche recenti per un numero prefissato di iterazioni, bilanciando esplorazione e ottimizzazione. Nei prossimi paragrafi verranno descritti i dettagli implementativi dell’algoritmo.
+
+\subsection{Struttura Della Tabu Search}
+\label{sec:TabuSearch}
+
+L'algoritmo si basa su una ricerca locale iterativa, mantenendo una soluzione corrente e aggiornandola esplorando il vicinato. La qualità di ogni soluzione è valutata tramite una funzione costo, mentre una \textit{tabu list} impedisce il ripristino di mosse recenti, favorendo l'esplorazione di nuove configurazioni.
+
+Gli elementi principali dell'algoritmo includono:
+\begin{itemize}
+    \item \textbf{Soluzione corrente}: insieme di vertici selezionati nel \textit{vertex cover}.
+    \item \textbf{Migliore soluzione}: la configurazione con costo minimo trovata finora.
+    \item \textbf{Tabu list}: insieme di mosse vietate per un numero limitato di iterazioni.
+    \item \textbf{Vicinato}: soluzioni ottenute aggiungendo o rimuovendo vertici.
+\end{itemize}
+
+L'algoritmo prosegue fino al raggiungimento di un criterio di arresto, basato su un numero massimo di iterazioni o sull'assenza di miglioramenti per un intervallo predefinito. Il funzionamento dettagliato, inclusa la gestione della \textit{tabu list} e dei parametri principali (\texttt{tabuTenure}, \texttt{maxIterations}, \texttt{maxNoImprovement}), è illustrato nello pseudocodice della sezione successiva.
+
+Tra i parametri fondamentali troviamo:
+\begin{itemize}
+    \item \textbf{\emph{maxIterations}:} numero massimo di iterazioni complessive.
+    \item \textbf{\emph{tabuTenure}:} numero di iterazioni per cui una mossa rimane nella tabu list.
+    \item \textbf{\emph{maxNoImprovement}:} numero massimo di iterazioni consecutive senza miglioramenti, oltre cui fermare l'algoritmo.
+\end{itemize}
+
+\subsection{Pseudocodice}
+
+L'algoritmo segue un ciclo iterativo in cui si generano soluzioni vicine e si applicano criteri di selezione basati sulla \textit{tabu list} e sulla qualità della soluzione. La funzione di valutazione guida la ricerca, mentre i criteri di aspirazione permettono di ignorare vincoli tabu se si trova una soluzione migliore.
+
+Il funzionamento è riassunto nel seguente pseudocodice:
+
+\begin{lstlisting}[language=Python, caption=Pseudocodice della Tabu Search]
+FUNCTION TABU_SEARCH(Graph, maxIter, tabuTenure, maxNoImprovement):
+    bestSolution = INITIAL_SOLUTION(Graph)
+    currentSolution = bestSolution.copy()
+    tabuList = emptySet
+    iterations = 0
+    noImprovement = 0
+
+    WHILE iterations < maxIter AND noImprovement < maxNoImprovement:
+        neighbors = GENERATE_NEIGHBORS(currentSolution)
+        bestNeighbor = SELECT_BEST(neighbors, tabuList, bestSolution)
+
+        IF bestNeighbor is NULL:
+            BREAK
+        
+        UPDATE_TABU_LIST(tabuList)
+        tabuList.add(DETERMINE_MOVE(currentSolution, bestNeighbor), tabuTenure)
+        
+        currentSolution = bestNeighbor.copy()
+
+        IF cost(currentSolution) < cost(bestSolution):
+            bestSolution = currentSolution.copy()
+            noImprovement = 0
+        ELSE:
+            noImprovement += 1
+
+        iterations += 1
+
+    RETURN bestSolution
+\end{lstlisting}
+
+Le principali operazioni sono:
+\begin{itemize}
+    \item \texttt{INITIAL\_SOLUTION}: genera una configurazione iniziale ammissibile.
+    \item \texttt{GENERATE\_NEIGHBORS}: produce soluzioni vicine.
+    \item \texttt{SELECT\_BEST}: sceglie la soluzione migliore rispettando le regole tabu.
+    \item \texttt{UPDATE\_TABU\_LIST}: aggiorna la memoria tabu rimuovendo mosse scadute.
+    \item \texttt{DETERMINE\_MOVE}: identifica la modifica necessaria per la transizione tra soluzioni.
+\end{itemize}
+
+L'algoritmo si arresta se il numero massimo di iterazioni è raggiunto o se non si verificano miglioramenti per un certo numero di iterazioni consecutive.
+
+\subsection{Esecuzione e Parametri Principali}
+
+In fase di esecuzione, l'algoritmo arresta la ricerca in presenza di due condizioni:
+\begin{enumerate}
+    \item Il \emph{numero totale di iterazioni} raggiunge \emph{maxIterations}.
+    \item Non si osservano miglioramenti alla \emph{bestSolution} per più di \emph{maxNoImprovement} iterazioni consecutive.
+\end{enumerate}
+
+Le prestazioni (sia in termini di tempo di esecuzione che di qualità delle soluzioni) dipendono fortemente dalla scelta di parametri come \emph{maxIterations}, \emph{tabuTenure}, \emph{maxNoImprovement} e dalla definizione delle mosse nel \emph{vicinato}.
+
+In questo lavoro, si è analizzato un range di valori per i parametri chiave (ad esempio, \emph{tabuTenure} variato tra 5 e 7, \emph{maxNoImprovement} tra 10 e 30), confrontando i risultati sia in termini di costi ottenuti sia di stabilità dell'algoritmo. I dettagli di tali sperimentazioni sono riportati nel Capitolo~\ref{sec:Risultati}.
+
+% (Finisce il capitolo Algoritmo)

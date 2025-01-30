@@ -1,7 +1,6 @@
 prove
 grafo*
 *.class
-WeightedVertexCover*
 solutions
 
 # scalability results

@@ -1,0 +1,34 @@
+\section{Conclusioni}
+\label{sec:Conclusioni}
+
+Nel corso di questo progetto, è stato sviluppato un \emph{solver} per il problema del \emph{Weighted Vertex Cover} basato su una metaeuristica di tipo \emph{Tabu Search}. L’obiettivo principale era esplorare e applicare un approccio combinatorio in grado di trovare soluzioni di buona qualità in tempi computazionali ragionevoli, anche su istanze di dimensioni intermedie o relativamente grandi.
+
+\subsection*{Riepilogo del Lavoro Svolto}
+Il lavoro ha compreso:
+\begin{enumerate}
+    \item La definizione di una \emph{soluzione} come insieme di nodi (o vettore booleano) che copre tutti gli archi del grafo.
+    \item L’implementazione di una \emph{Tabu Search}, con meccanismi di:
+    \begin{itemize}
+        \item \textbf{Short-term memory}, per evitare il ritorno immediato a soluzioni o mosse già visitate di recente.
+        \item \textbf{Aspiration criterion}, che consente di ignorare lo stato \emph{tabu} se la soluzione candidata migliora la migliore soluzione globale.
+    \end{itemize}
+    \item L’analisi dei \emph{parametri} chiave dell’algoritmo (\emph{tabuTenure}, \emph{maxIterations}, \emph{maxNoImprovement}) e l’effetto della loro variazione sui risultati.
+    \item Test sperimentali su istanze di diversa dimensione, con valutazione e confronto delle prestazioni (\emph{Best Cost} trovato, tempi medi, stabilità delle soluzioni).
+\end{enumerate}
+
+\subsection*{Valutazione delle Scelte Progettuali}
+Le strategie adottate — in particolare la definizione del \emph{vicinato}, la gestione \emph{move-based} della Tabu List e il criterio di arresto basato su \emph{maxNoImprovement} — hanno dimostrato di produrre soluzioni di qualità. La Tabu Search, infatti, si è rivelata capace di evitare rapidamente i \emph{minimi locali} più ovvi e di diversificare sufficientemente la ricerca, specialmente quando si ottimizza il valore di \emph{tabuTenure}.
+
+\subsection*{Sviluppi Futuri}
+Tra le possibili estensioni o linee di lavoro future si possono evidenziare:
+\begin{itemize}
+    \item \textbf{Integrazione di una Long-term Memory}: per catturare le frequenze di aggiunta/rimozione di ciascun nodo e favorire una \emph{diversificazione} più ampia su istanze di grandi dimensioni.
+    \item \textbf{Ibridazione con altre metaeuristiche}: ad esempio, un \emph{framework} che combini una fase di \emph{Genetic Algorithm} per generare popolazioni di soluzioni, seguita da un \emph{local search} Tabu Search per il refinement di ciascun individuo.
+    \item \textbf{Parallelizzazione}: molte fasi della Tabu Search (generazione del vicinato, valutazione del costo) possono essere eseguite in parallelo, sfruttando architetture multicore o \emph{GPU}.
+    \item \textbf{Benchmark su istanze molto grandi}: sarebbe interessante testare l’algoritmo su grafi con decine di migliaia di nodi e valutare le strategie di pruning o di riduzione del vicinato per abbattere i tempi di calcolo.
+\end{itemize}
+
+\subsection*{Considerazioni Finali}
+Nel complesso, l’esperienza acquisita con questo progetto evidenzia la validità delle metaeuristiche come strumento efficace per problemi NP-hard. Nonostante la Tabu Search non garantisca l’ottimalità, le soluzioni ottenute risultano competitive rispetto ad approcci euristici più semplici, specialmente su istanze di dimensioni medio-grandi. Il lavoro svolto dimostra come la personalizzazione dei parametri e la cura della struttura \emph{tabu} siano fondamentali per ottenere le migliori prestazioni possibili, aprendo la strada a numerosi sviluppi futuri.
+
+% Fine capitolo Conclusioni
