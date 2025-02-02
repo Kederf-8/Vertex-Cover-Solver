@@ -25,26 +25,31 @@ Per capire come i parametri influenzino le prestazioni, sono state confrontate d
 \label{tab:risultati1}
 \begin{tabular}{l|c|c|c|c|c|c}
 \hline
-\textbf{Config.} & \textbf{Nodes} & \textbf{Arcs} & \textbf{maxIter.} & \textbf{tabuTenure} & \textbf{maxNoImpr.} & \textbf{Time (s)} \\
+\textbf{Config.} & \textbf{n} & \textbf{m} & \textbf{maxIter.} & \textbf{tabuTenure} & \textbf{maxNoImpr.} & \textbf{Time (s)} \\
 \hline
-C1 & 20 & 60 & 500 & 5 & 10 & 0.0092 \\
-C2 & 100 & 500 & 500 & 5 & 10 & 0.0608 \\
-C3 & 800 & 10000 & 500 & 5 & 10 & 6.1008 \\
-C4 & 20 & 60 & 500 & 7 & 20 & 0.0148 \\
-C5 & 100 & 500 & 500 & 7 & 20 & 0.108\\
-C6 & 800 & 10000 & 500 & 7 & 20 & 6.7292 \\
-C7 & 20 & 60 & 1000 & 5 & 20 & 0.0156 \\
-C8 & 100 & 500 & 1000 & 5 & 20 & 0.0836 \\
-C9 & 800 & 10000 & 1000 & 5 & 20 & 6.7994 \\
-C10 & 20 & 60 & 1000 & 10 & 30 & 0.021 \\
-C11 & 100 & 500 & 1000 & 10 & 30 & 0.0818 \\
-C12 & 800 & 10000 & 1000 & 10 & 30 & 7.2512 \\
-C13 & 20 & 60 & 2000 & 7 & 10 & 0.0134 \\
-C14 & 100 & 500 & 2000 & 7 & 10 & 0.062 \\
-C15 & 800 & 10000 & 2000 & 7 & 10 & 6.856 \\
-C16 & 20 & 60 & 2000 & 10 & 20 & 0.0168 \\
-C17 & 100 & 500 & 2000 & 10 & 20 & 0.0926 \\
-C18 & 800 & 10000 & 2000 & 10 & 20 & 7.54 \\
+C1 & \multirow{6}{*}{20} & \multirow{6}{*}{60}  
+& 500  & 5  & 10 & 0.0092 \\
+C4 & &  & 500  & 7  & 20 & 0.0148 \\
+C7 & & & 1000 & 5  & 20 & 0.0156 \\
+C10 & & & 1000 & 10 & 30 & 0.021 \\
+C13 & & & 2000 & 7  & 10 & 0.0134 \\
+C16 & & & 2000 & 10 & 20 & 0.0168 \\
+\hline
+C2 & \multirow{6}{*}{100} & \multirow{6}{*}{500}  
+& 500  & 5  & 10 & 0.0608 \\
+C5 & & & 500  & 7  & 20 & 0.108 \\
+C8 & & & 1000 & 5  & 20 & 0.0836 \\
+C11 & & & 1000 & 10 & 30 & 0.0818 \\
+C14 & & & 2000 & 7  & 10 & 0.062 \\
+C17 & & & 2000 & 10 & 20 & 0.0926 \\
+\hline
+C3 & \multirow{6}{*}{800} & \multirow{6}{*}{10000}  
+& 500  & 5  & 10 & 6.1008 \\
+C6 & & & 500  & 7  & 20 & 6.7292 \\
+C9 & & & 1000 & 5  & 20 & 6.7994 \\
+C12 & & & 1000 & 10 & 30 & 7.2512 \\
+C15 & & & 2000 & 7  & 10 & 6.856 \\
+C18 & & & 2000 & 10 & 20 & 7.54 \\
 \hline
 \end{tabular}
 \end{table}
@@ -70,8 +75,8 @@ Nel complesso, la Tabu Search così configurata è risultata:
 
 \begin{figure}[h!]
 \centering
-\includegraphics[width=1\textwidth]{img/scalability_plot.png} % Esempio di plot
-\caption{Tempo di esecuzione medio in funzione del numero di nodi, configurazione \emph{maxIterations}, \emph{tabuTenure}, \emph{maxNoImprovement}.}
+\includegraphics[width=1\textwidth]{images/scalability_plot.png} % Esempio di plot
+\caption{Tempo di esecuzione medio in funzione della dimensione del grafo e della configurazione dei tre parametri.}
 \label{fig:scalability}
 \end{figure}
 
