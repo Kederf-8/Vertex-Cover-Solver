@@ -1,34 +1,52 @@
 \section{Conclusioni}
 \label{sec:Conclusioni}
 
-Nel corso di questo progetto, è stato sviluppato un \emph{solver} per il problema del \emph{Weighted Vertex Cover} basato su una metaeuristica di tipo \emph{Tabu Search}. L’obiettivo principale era esplorare e applicare un approccio combinatorio in grado di trovare soluzioni di buona qualità in tempi computazionali ragionevoli, anche su istanze di dimensioni intermedie o relativamente grandi.
 
-\subsection*{Riepilogo del Lavoro Svolto}
-Il lavoro ha compreso:
-\begin{enumerate}
-    \item La definizione di una \emph{soluzione} come insieme di nodi (o vettore booleano) che copre tutti gli archi del grafo.
-    \item L’implementazione di una \emph{Tabu Search}, con meccanismi di:
-    \begin{itemize}
-        \item \textbf{Short-term memory}, per evitare il ritorno immediato a soluzioni o mosse già visitate di recente.
-        \item \textbf{Aspiration criterion}, che consente di ignorare lo stato \emph{tabu} se la soluzione candidata migliora la migliore soluzione globale.
-    \end{itemize}
-    \item L’analisi dei \emph{parametri} chiave dell’algoritmo (\emph{tabuTenure}, \emph{maxIterations}, \emph{maxNoImprovement}) e l’effetto della loro variazione sui risultati.
-    \item Test sperimentali su istanze di diversa dimensione, con valutazione e confronto delle prestazioni (\emph{Best Cost} trovato, tempi medi, stabilità delle soluzioni).
-\end{enumerate}
+Nel corso di questo progetto è stato sviluppato un solver per il problema del \textit{Weighted Vertex Cover} basato su un’implementazione della \textit{Tabu Search}. L’obiettivo principale era applicare una metaeuristica efficace per trovare soluzioni di alta qualità in tempi computazionali ragionevoli, anche su istanze di dimensioni medio-grandi. 
 
-\subsection*{Valutazione delle Scelte Progettuali}
-Le strategie adottate — in particolare la definizione del \emph{vicinato}, la gestione \emph{move-based} della Tabu List e il criterio di arresto basato su \emph{maxNoImprovement} — hanno dimostrato di produrre soluzioni di qualità. La Tabu Search, infatti, si è rivelata capace di evitare rapidamente i \emph{minimi locali} più ovvi e di diversificare sufficientemente la ricerca, specialmente quando si ottimizza il valore di \emph{tabuTenure}.
+\subsection{Riepilogo del Lavoro Svolto}
 
-\subsection*{Sviluppi Futuri}
-Tra le possibili estensioni o linee di lavoro future si possono evidenziare:
+L'attività svolta si è articolata nelle seguenti fasi principali:
+
 \begin{itemize}
-    \item \textbf{Integrazione di una Long-term Memory}: per catturare le frequenze di aggiunta/rimozione di ciascun nodo e favorire una \emph{diversificazione} più ampia su istanze di grandi dimensioni.
-    \item \textbf{Ibridazione con altre metaeuristiche}: ad esempio, un \emph{framework} che combini una fase di \emph{Genetic Algorithm} per generare popolazioni di soluzioni, seguita da un \emph{local search} Tabu Search per il refinement di ciascun individuo.
-    \item \textbf{Parallelizzazione}: molte fasi della Tabu Search (generazione del vicinato, valutazione del costo) possono essere eseguite in parallelo, sfruttando architetture multicore o \emph{GPU}.
-    \item \textbf{Benchmark su istanze molto grandi}: sarebbe interessante testare l’algoritmo su grafi con decine di migliaia di nodi e valutare le strategie di pruning o di riduzione del vicinato per abbattere i tempi di calcolo.
+    \item Definizione della soluzione come insieme di nodi che coprono tutti gli archi del grafo, utilizzando una rappresentazione compatta ed efficiente.
+    \item Implementazione di un algoritmo \textit{Tabu Search}, con i seguenti meccanismi:
+    \begin{itemize}
+        \item \textbf{Short-term memory}: per evitare il ritorno immediato a soluzioni già visitate, migliorando la capacità di esplorazione.
+        \item \textbf{Aspiration criterion}: che consente di accettare mosse tabu se la soluzione migliora il miglior risultato globale.
+    \end{itemize}
+    \item Analisi dei parametri chiave dell'algoritmo (\textit{tabuTenure}, \textit{maxIterations}, \textit{maxNoImprovement}) e valutazione del loro impatto sui risultati ottenuti.
+    \item Sperimentazione su istanze di diverse dimensioni, con valutazione della qualità delle soluzioni e dei tempi di esecuzione.
 \end{itemize}
 
-\subsection*{Considerazioni Finali}
-Nel complesso, l’esperienza acquisita con questo progetto evidenzia la validità delle metaeuristiche come strumento efficace per problemi NP-hard. Nonostante la Tabu Search non garantisca l’ottimalità, le soluzioni ottenute risultano competitive rispetto ad approcci euristici più semplici, specialmente su istanze di dimensioni medio-grandi. Il lavoro svolto dimostra come la personalizzazione dei parametri e la cura della struttura \emph{tabu} siano fondamentali per ottenere le migliori prestazioni possibili, aprendo la strada a numerosi sviluppi futuri.
+\subsection{Scelte Vincenti e Punti di Forza}
+
+L'implementazione sviluppata presenta alcune differenze significative rispetto alla \textit{Tabu Search} classica, con diverse scelte progettuali che si sono rivelate vincenti:
+
+\begin{itemize}
+    \item \textbf{Generazione controllata del vicinato}: ogni mossa consiste nell'aggiunta o rimozione di un solo nodo, mantenendo la soluzione sempre ammissibile. Ciò garantisce stabilità nella ricerca, evitando la necessità di correzioni successive.
+    \item \textbf{Gestione efficiente della lista tabu}: ogni mossa è memorizzata come una semplice chiave testuale (\texttt{"ADD\_x"} o \texttt{"REMOVE\_x"}), riducendo il consumo di memoria e la complessità computazionale.
+    \item \textbf{Aspiration criterion ottimizzato}: se una mossa è tabu ma migliora la migliore soluzione globale, viene comunque accettata, permettendo all'algoritmo di sfuggire ai minimi locali più evidenti.
+    \item \textbf{Selezione del vicino robusta}: in assenza di candidati validi, viene scelto un vicino casuale, evitando stalli nella ricerca e garantendo una migliore esplorazione dello spazio delle soluzioni.
+    \item \textbf{Criterio di arresto bilanciato}: l’algoritmo si interrompe quando non si ottengono miglioramenti per un numero definito di iterazioni (\textit{maxNoImprovement}), prevenendo esecuzioni eccessivamente lunghe senza progresso.
+\end{itemize}
+
+I risultati sperimentali confermano che queste strategie permettono di ottenere soluzioni di qualità con tempi computazionali contenuti, rendendo l'algoritmo scalabile anche per istanze di grafi con migliaia di archi.
+
+\subsection{Sviluppi Futuri}
+
+Tra le possibili estensioni e miglioramenti dell'algoritmo si evidenziano:
+
+\begin{itemize}
+    \item \textbf{Integrazione di una Long-term Memory}: per raccogliere informazioni sulle frequenze di selezione dei nodi e favorire una maggiore diversificazione della ricerca.
+    \item \textbf{Ibridazione con altre metaeuristiche}: combinando la \textit{Tabu Search} con algoritmi genetici o strategie di \textit{simulated annealing} per migliorare l’esplorazione dello spazio delle soluzioni.
+    \item \textbf{Parallelizzazione dell'algoritmo}: l'esecuzione parallela della generazione del vicinato e della valutazione delle soluzioni potrebbe accelerare significativamente i tempi di calcolo, sfruttando CPU multi-core o GPU.
+    \item \textbf{Test su istanze di grandi dimensioni}: per valutare strategie di pruning o di riduzione del vicinato in grafi con decine di migliaia di nodi.
+\end{itemize}
+
+\subsection{Considerazioni Finali}
+
+L'esperienza acquisita in questo progetto dimostra come la \textit{Tabu Search} sia un potente strumento per risolvere problemi NP-hard come il \textit{Weighted Vertex Cover}. Pur non garantendo l'ottimalità delle soluzioni, l'implementazione proposta si è dimostrata competitiva rispetto ad altre tecniche euristiche più semplici, producendo risultati affidabili e scalabili.
+Le scelte progettuali adottate hanno permesso di bilanciare esplorazione e intensificazione della ricerca, migliorando la qualità delle soluzioni ottenute rispetto a un'implementazione standard della \textit{Tabu Search}. Questo lavoro rappresenta quindi una base solida per futuri miglioramenti e per l’applicazione della metaeuristica a problemi più complessi.
 
 % Fine capitolo Conclusioni

@@ -1,7 +1,6 @@
 prove
 grafo*
 *.class
-solutions
 
 # scalability results
 scalability_results.csv

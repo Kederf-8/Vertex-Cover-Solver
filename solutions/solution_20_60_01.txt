@@ -1,0 +1,19 @@
+Miglior Vertex Cover Trovato:
+Vertex Cover (nodi): 2 3 4 5 6 8 9 10 14 15 17 18 19 | Costo Totale: 774.0
+
+Dettagli dei Nodi nel Vertex Cover:
+Nodo 2: Peso = 37.0
+Nodo 3: Peso = 50.0
+Nodo 4: Peso = 103.0
+Nodo 5: Peso = 26.0
+Nodo 6: Peso = 73.0
+Nodo 8: Peso = 30.0
+Nodo 9: Peso = 31.0
+Nodo 10: Peso = 66.0
+Nodo 14: Peso = 90.0
+Nodo 15: Peso = 102.0
+Nodo 17: Peso = 54.0
+Nodo 18: Peso = 36.0
+Nodo 19: Peso = 76.0
+
+Costo Totale del Vertex Cover: 774.0
